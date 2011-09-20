@@ -1,0 +1,86 @@
+# -*- encoding: utf-8 -*-
+
+import os
+import shutil
+import pkg_resources
+import djangorecipe
+from djangorecipe.boilerplate import versions
+from djangorecipe.recipe import Recipe as OriginalDjangoRecipe
+from boilerplate import *
+
+djangorecipe.boilerplate.versions['1.2']['settings'] = auf_settings_template
+djangorecipe.boilerplate.versions['1.2']['urls'] = auf_urls_template
+djangorecipe.boilerplate.versions['1.2']['production_settings'] = auf_production_settings
+djangorecipe.boilerplate.versions['1.2']['development_settings'] = auf_development_settings
+
+
+class Recipe(OriginalDjangoRecipe):
+
+    def install(self):
+        """
+        """
+        location = self.options['location']
+        base_dir = self.buildout['buildout']['directory']
+        self.options['project_name'] = os.path.basename(base_dir)
+
+        project_dir = os.path.join(base_dir, self.options['project'])
+
+        extra_paths = self.get_extra_paths()
+        requirements, ws = self.egg.working_set(['djangorecipe'])
+
+        script_paths = []
+
+        # Create the Django management script
+        script_paths.extend(self.create_manage_script(extra_paths, ws))
+
+        # Create the test runner
+        script_paths.extend(self.create_test_runner(extra_paths, ws))
+
+        # Make the wsgi and fastcgi scripts if enabled
+        script_paths.extend(self.make_scripts(extra_paths, ws))
+
+        # Create default settings if we haven't got a project
+        # egg specified, and if it doesn't already exist
+        if not self.options.get('projectegg'):
+            if not os.path.exists(project_dir):
+                self.create_project(project_dir)
+            else:
+                self.log.info(
+                    'Skipping creating of project: %(project)s since '
+                    'it exists' % self.options)
+
+        return script_paths + [location]
+
+    def create_project(self, project_dir):
+        super(Recipe, self).create_project(project_dir)
+
+        # fichier de configuration de base de données
+        self.create_file(os.path.join(project_dir, 'conf.py'), conf_file, self.options)
+        self.create_file(os.path.join(project_dir, 'conf.py.edit'), conf_file, self.options)
+        self.create_file(os.path.join(project_dir, 'dashboard.py'), dashboard_file, self.options)
+
+        os.mkdir(os.path.join(project_dir, 'media', 'css'))
+        os.mkdir(os.path.join(project_dir, 'media', 'images'))
+        os.mkdir(os.path.join(project_dir, 'media', 'js'))
+
+        # copie des medias django-admin-tools
+        requirements, ws = self.egg.working_set(['djangorecipe'])
+        req = pkg_resources.Requirement.parse('django-admin-tools')
+        src = os.path.join(ws.find(req).location, 'admin_tools', 'media', 'admin_tools')
+        dst = os.path.join(project_dir, 'media', 'admin_tools')
+        shutil.copytree(src, dst)
+
+        # copier les medias de auf.django.skin
+        req = pkg_resources.Requirement.parse('auf.django.skin')
+        src = os.path.join(ws.find(req).location, 'auf', 'django', 'skin', 'media', 'skin')
+        dst = os.path.join(project_dir, 'media', 'skin')
+        shutil.copytree(src, dst)
+
+        # copier les medias de Django
+        req = pkg_resources.Requirement.parse('django')
+        src = os.path.join(ws.find(req).location, 'django', 'contrib', 'admin', 'media')
+        dst = os.path.join(project_dir, 'media', 'django')
+        shutil.copytree(src, dst)
+
+
+

@@ -1,0 +1,16 @@
+0.19
+====
+
+* ajout du handler404 pour géré par auf.django.skin
+
+0.18
+====
+
+* report squelette 0.15
+
+* prise en compte du djangorecipe 0.99 qui distingue django 1.2 et 1.3
+
+0.17
+====
+
+* ajustement avec la djangorecipe 0.99 qui ne prend plus de version
