@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 import sys, os
 
 name = 'auf.recipe.django'
-version = '0.19'
+version = '0.20'
 
 setup(name=name,
       version=version,
@@ -20,9 +20,10 @@ setup(name=name,
       include_package_data=True,
       zip_safe=False,
       install_requires=[
-        'zc.buildout',
-        'zc.recipe.egg',
-        'djangorecipe',
+          'setuptools',
+          'zc.buildout',
+          'zc.recipe.egg',
+          'djangorecipe',
       ],
       entry_points="""
       # -*- Entry points: -*-

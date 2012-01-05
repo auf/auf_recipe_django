@@ -1,3 +1,10 @@
+0.20
+====
+
+* Patch pour permettre au script bin/django de trouver les management commands
+  dans des apps contenues dans des "namespaced packages". Voir le ticket Django
+  #14087 (https://code.djangoproject.com/ticket/14087)
+
 0.19
 ====
 

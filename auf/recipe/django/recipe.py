@@ -4,6 +4,7 @@ import os
 import shutil
 import pkg_resources
 import djangorecipe
+import zc.buildout
 from djangorecipe.boilerplate import versions
 from djangorecipe.recipe import Recipe as OriginalDjangoRecipe
 from boilerplate import *
@@ -82,5 +83,12 @@ class Recipe(OriginalDjangoRecipe):
         dst = os.path.join(project_dir, 'media', 'django')
         shutil.copytree(src, dst)
 
-
-
+    def create_manage_script(self, extra_paths, ws):
+        project = self.options.get('projectegg', self.options['project'])
+        return zc.buildout.easy_install.scripts(
+            [(self.options.get('control-script', self.name),
+              'auf.recipe.django.manage', 'main')],
+            ws, self.options['executable'], self.options['bin-directory'],
+            extra_paths=extra_paths,
+            arguments="'%s.%s'" % (project,
+                                   self.options['settings']))
