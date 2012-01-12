@@ -6,27 +6,21 @@
 
 conf_file = '''# -*- encoding: utf-8 -*
 
-DATABASE_ENGINE = 'mysql'    # 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
-DATABASE_NAME = ''
-DATABASE_USER = ''           # Not used with sqlite3.
-DATABASE_PASSWORD = ''       # Not used with sqlite3.
-DATABASE_HOST = ''           # Set to empty string for localhost. Not used with sqlite3.
-DATABASE_PORT = ''           # Set to empty string for default. Not used with sqlite3.
+DATABASES = {
+    'default': {
+        #'ENGINE': 'django.db.backends.mysql',
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': 'db.sqlite',
+        'USER': '',
+        'PASSWORD': '',
+        'HOST' : '',
+        'PORT' : '',
+    }
+}
+
 '''
 
 dashboard_file ='''# -*- encoding: utf-8 -*
-
-"""
-This file was generated with the customdashboard management command, it
-contains the two classes for the main dashboard and app index dashboard.
-You can customize these classes as you want.
-
-To activate your index dashboard add the following to your settings.py::
-    ADMIN_TOOLS_INDEX_DASHBOARD = 'SIGMA.dashboard.CustomIndexDashboard'
-
-And to activate the app index dashboard::
-    ADMIN_TOOLS_APP_INDEX_DASHBOARD = 'SIGMA.dashboard.CustomAppIndexDashboard'
-"""
 
 from django.utils.translation import ugettext_lazy as _
 from django.core.urlresolvers import reverse
@@ -37,7 +31,7 @@ from admin_tools.utils import get_admin_site_name
 
 class CustomIndexDashboard(Dashboard):
     """
-    Custom index dashboard for SIGMA.
+    Custom index dashboard
     """
     def init_with_context(self, context):
         site_name = get_admin_site_name(context)
@@ -92,7 +86,7 @@ auf_settings_template = '''# -*- encoding: utf-8 -*-
 
 import os
 import socket
-from conf import *
+from django.conf.global_settings import TEMPLATE_CONTEXT_PROCESSORS as DEFAULT_TEMPLATE_CONTEXT_PROCESSORS
 
 # Rapports d'erreurs
 EMAIL_SUBJECT_PREFIX = '[%(project_name)s - %%s] ' %% socket.gethostname()
@@ -102,36 +96,20 @@ ADMINS = (
 
 MANAGERS = ADMINS
 
-TIME_ZONE = 'Canada/Montreal'
+TIME_ZONE = 'America/Montreal'
 
 LANGUAGE_CODE = 'fr-ca'
 
-# Absolute path to the directory that holds media.
-# Example: "/home/media/media.lawrence.com/"
-MEDIA_ROOT = %(media_root)s
-
-# URL that handles the media served from MEDIA_ROOT. Make sure to use a
-# trailing slash if there is a path component (optional in other cases).
-# Examples: "http://media.lawrence.com", "http://example.com/media/"
+MEDIA_ROOT = os.path.join(os.path.dirname(__file__), 'media')
 MEDIA_URL = '/media/'
 
-# URL prefix for admin media -- CSS, JavaScript and images. Make sure to use a
-# trailing slash.
-# Examples: "http://foo.com/media/", "/media/".
-ADMIN_MEDIA_PREFIX = '/media/django/'
+STATIC_ROOT = os.path.join(os.path.dirname(__file__), 'static')
+STATIC_URL = '/static/'
 
 # Don't share this with anybody.
 SECRET_KEY = '%(secret)s'
 
-MIDDLEWARE_CLASSES = (
-    'django.middleware.common.CommonMiddleware',
-    'django.contrib.sessions.middleware.SessionMiddleware',
-    'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'django.middleware.doc.XViewMiddleware',
-)
-
 ROOT_URLCONF = '%(urlconf)s'
-
 
 INSTALLED_APPS = (
     'auf.django.skin',
@@ -143,24 +121,16 @@ INSTALLED_APPS = (
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.admin',
+    'django.contrib.staticfiles',
     'south',
 )
 
-TEMPLATE_CONTEXT_PROCESSORS = (
-    'django.core.context_processors.auth',
-    'django.core.context_processors.debug',
-    'django.core.context_processors.i18n',
-    'django.core.context_processors.media',
-    'django.contrib.messages.context_processors.messages',
+TEMPLATE_CONTEXT_PROCESSORS = DEFAULT_TEMPLATE_CONTEXT_PROCESSORS + (
+    'django.core.context_processors.static',
     'django.core.context_processors.request',
     'auf.django.skin.context_processors.auf',
 )
 
-
-TEMPLATE_LOADERS = (
-    'django.template.loaders.filesystem.load_template_source',
-    'django.template.loaders.app_directories.load_template_source',
-)
 
 TEMPLATE_DIRS = (
     os.path.join(os.path.dirname(__file__), "templates"),
@@ -170,6 +140,7 @@ SOUTH_TESTS_MIGRATE = False
 
 ADMIN_TOOLS_INDEX_DASHBOARD = 'project.dashboard.CustomIndexDashboard'
 
+from conf import *
 '''
 
 ################################################################################

@@ -9,10 +9,10 @@ from djangorecipe.boilerplate import versions
 from djangorecipe.recipe import Recipe as OriginalDjangoRecipe
 from boilerplate import *
 
-djangorecipe.boilerplate.versions['1.2']['settings'] = auf_settings_template
-djangorecipe.boilerplate.versions['1.2']['urls'] = auf_urls_template
-djangorecipe.boilerplate.versions['1.2']['production_settings'] = auf_production_settings
-djangorecipe.boilerplate.versions['1.2']['development_settings'] = auf_development_settings
+djangorecipe.boilerplate.versions['1.3']['settings'] = auf_settings_template
+djangorecipe.boilerplate.versions['1.3']['urls'] = auf_urls_template
+djangorecipe.boilerplate.versions['1.3']['production_settings'] = auf_production_settings
+djangorecipe.boilerplate.versions['1.3']['development_settings'] = auf_development_settings
 
 
 class Recipe(OriginalDjangoRecipe):
@@ -59,29 +59,6 @@ class Recipe(OriginalDjangoRecipe):
         self.create_file(os.path.join(project_dir, 'conf.py'), conf_file, self.options)
         self.create_file(os.path.join(project_dir, 'conf.py.edit'), conf_file, self.options)
         self.create_file(os.path.join(project_dir, 'dashboard.py'), dashboard_file, self.options)
-
-        os.mkdir(os.path.join(project_dir, 'media', 'css'))
-        os.mkdir(os.path.join(project_dir, 'media', 'images'))
-        os.mkdir(os.path.join(project_dir, 'media', 'js'))
-
-        # copie des medias django-admin-tools
-        requirements, ws = self.egg.working_set(['djangorecipe'])
-        req = pkg_resources.Requirement.parse('django-admin-tools')
-        src = os.path.join(ws.find(req).location, 'admin_tools', 'media', 'admin_tools')
-        dst = os.path.join(project_dir, 'media', 'admin_tools')
-        shutil.copytree(src, dst)
-
-        # copier les medias de auf.django.skin
-        req = pkg_resources.Requirement.parse('auf.django.skin')
-        src = os.path.join(ws.find(req).location, 'auf', 'django', 'skin', 'media', 'skin')
-        dst = os.path.join(project_dir, 'media', 'skin')
-        shutil.copytree(src, dst)
-
-        # copier les medias de Django
-        req = pkg_resources.Requirement.parse('django')
-        src = os.path.join(ws.find(req).location, 'django', 'contrib', 'admin', 'media')
-        dst = os.path.join(project_dir, 'media', 'django')
-        shutil.copytree(src, dst)
 
     def create_manage_script(self, extra_paths, ws):
         project = self.options.get('projectegg', self.options['project'])
