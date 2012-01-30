@@ -27,7 +27,7 @@ class Recipe(OriginalDjangoRecipe):
         project_dir = os.path.join(base_dir, self.options['project'])
 
         extra_paths = self.get_extra_paths()
-        requirements, ws = self.egg.working_set(['djangorecipe'])
+        requirements, ws = self.egg.working_set(['auf.recipe.django'])
 
         script_paths = []
 

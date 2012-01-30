@@ -81,7 +81,7 @@ def find_management_module(app_name):
         # of the app_name but the project directory itself isn't on the path.
         try:
             modules = find_modules(part, paths)
-            paths = [m[1] for m in modules]
+            paths = [m[1] for m in modules if isinstance(m, tuple)]
         except ImportError,e:
             if os.path.basename(os.getcwd()) != part:
                 raise e
