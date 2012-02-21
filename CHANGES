@@ -1,3 +1,8 @@
+1.2
+===
+
+* Fix namespaces according : http://packages.python.org/distribute/setuptools.html#namespace-packages
+
 1.1
 ===
 

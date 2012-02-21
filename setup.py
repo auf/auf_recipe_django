@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 import sys, os
 
 name = 'auf.recipe.django'
-version = '1.1'
+version = '1.2'
 
 setup(name=name,
       version=version,
@@ -15,7 +15,7 @@ setup(name=name,
       author_email='olivier.larcheveque@auf.org',
       url='http://pypi.auf.org/%s' % name,
       license='GPL',
-      namespace_packages = ['auf'],
+      namespace_packages = ['auf', 'auf.recipe', ],
       packages=find_packages(exclude=['ez_setup', 'examples', 'tests']),
       include_package_data=True,
       zip_safe=False,
