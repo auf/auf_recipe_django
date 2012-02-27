@@ -61,11 +61,41 @@ class Recipe(OriginalDjangoRecipe):
         self.create_file(os.path.join(project_dir, 'dashboard.py'), dashboard_file, self.options)
 
     def create_manage_script(self, extra_paths, ws):
+        _script_template = zc.buildout.easy_install.script_template
+        zc.buildout.easy_install.script_template = auf_buildout_file
         project = self.options.get('projectegg', self.options['project'])
-        return zc.buildout.easy_install.scripts(
+        scripts =  zc.buildout.easy_install.scripts(
             [(self.options.get('control-script', self.name),
               'auf.recipe.django.manage', 'main')],
             ws, self.options['executable'], self.options['bin-directory'],
             extra_paths=extra_paths,
             arguments="'%s.%s'" % (project,
                                    self.options['settings']))
+        zc.buildout.easy_install.script_template = _script_template
+        return scripts
+
+    def make_scripts(self, extra_paths, ws):
+        scripts = []
+        _script_template = zc.buildout.easy_install.script_template
+        for protocol in ('wsgi', 'fcgi'):
+            zc.buildout.easy_install.script_template = \
+                zc.buildout.easy_install.script_header + \
+                    auf_script_template[protocol]
+            if self.options.get(protocol, '').lower() == 'true':
+                project = self.options.get('projectegg',
+                                           self.options['project'])
+                scripts.extend(
+                    zc.buildout.easy_install.scripts(
+                        [('%s.%s' % (self.options.get('control-script',
+                                                      self.name),
+                                     protocol),
+                          'djangorecipe.%s' % protocol, 'main')],
+                        ws,
+                        self.options['executable'],
+                        self.options['bin-directory'],
+                        extra_paths=extra_paths,
+                        arguments="'%s.%s', logfile='%s'" % (
+                            project, self.options['settings'],
+                            self.options.get('logfile'))))
+        zc.buildout.easy_install.script_template = _script_template
+        return scripts
