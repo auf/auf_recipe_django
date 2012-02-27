@@ -4,7 +4,6 @@ import os
 import shutil
 import pkg_resources
 import djangorecipe
-import zc.buildout
 from djangorecipe.boilerplate import versions
 from djangorecipe.recipe import Recipe as OriginalDjangoRecipe
 from boilerplate import *

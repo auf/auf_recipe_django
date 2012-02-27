@@ -28,6 +28,6 @@ setup(name=name,
       entry_points="""
       # -*- Entry points: -*-
       [zc.buildout]
-      default = auf.recipe.django:Recipe
+      default = auf.recipe.django.recipe:Recipe
       """,
       )
