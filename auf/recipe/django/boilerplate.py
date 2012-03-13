@@ -136,14 +136,13 @@ TIME_ZONE = 'America/Montreal'
 
 LANGUAGE_CODE = 'fr-ca'
 
-MEDIA_ROOT = os.path.join(os.path.dirname(__file__), 'media')
+PROJECT_ROOT = os.path.dirname(__file__)
+
+MEDIA_ROOT = os.path.join(PROJECT_ROOT, 'media')
 MEDIA_URL = '/media/'
 
-STATIC_ROOT = os.path.join(os.path.dirname(__file__), 'static')
+STATIC_ROOT = os.path.join(PROJECT_ROOT, 'sitestatic')
 STATIC_URL = '/static/'
-
-# Don't share this with anybody.
-SECRET_KEY = '%(secret)s'
 
 ROOT_URLCONF = '%(urlconf)s'
 

@@ -1,3 +1,10 @@
+1.5
+===
+
+* cacher la SECRET_KEY
+
+* sitestatic au lieu de static
+
 1.4
 ===
 
