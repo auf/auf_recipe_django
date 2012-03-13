@@ -137,11 +137,12 @@ TIME_ZONE = 'America/Montreal'
 LANGUAGE_CODE = 'fr-ca'
 
 PROJECT_ROOT = os.path.dirname(__file__)
+SITE_ROOT = os.path.dirname(PROJECT_ROOT)
 
 MEDIA_ROOT = os.path.join(PROJECT_ROOT, 'media')
 MEDIA_URL = '/media/'
 
-STATIC_ROOT = os.path.join(PROJECT_ROOT, 'sitestatic')
+STATIC_ROOT = os.path.join(SITE_ROOT, 'sitestatic')
 STATIC_URL = '/static/'
 
 ROOT_URLCONF = '%(urlconf)s'
