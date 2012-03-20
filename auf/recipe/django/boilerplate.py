@@ -6,13 +6,14 @@ import zc.buildout.easy_install
 env = '''
 %(relative_paths_setup)s
 import sys
-import pkg_resources
 
 eggs_path = [
     %(path)s,
     ]
 
 sys.path[0:0] = eggs_path
+
+import pkg_resources
 
 # correction des namespaces virtuels
 for egg_path in eggs_path:

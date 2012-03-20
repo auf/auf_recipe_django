@@ -1,3 +1,8 @@
+1.6
+===
+
+* fix pkg_resources optionel sur le système, installé par buildout
+
 1.5
 ===
 
