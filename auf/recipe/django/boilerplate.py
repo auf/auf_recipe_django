@@ -126,6 +126,7 @@ import socket
 from django.conf.global_settings import TEMPLATE_CONTEXT_PROCESSORS as DEFAULT_TEMPLATE_CONTEXT_PROCESSORS
 
 # Rapports d'erreurs
+SERVER_EMAIL = 'ne-pas-repondre@auf.org'
 EMAIL_SUBJECT_PREFIX = '[%(project_name)s - %%s] ' %% socket.gethostname()
 ADMINS = (
     ('Équipe ARI-SI', 'developpeurs@ca.auf.org'),
