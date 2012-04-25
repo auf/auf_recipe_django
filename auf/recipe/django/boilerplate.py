@@ -37,9 +37,9 @@ application = %(module_name)s.%(attrs)s(%(arguments)s)
 }
 
 
-################################################################################
+###############################################################################
 # SETTINGS
-################################################################################
+###############################################################################
 
 conf_file = '''# -*- encoding: utf-8 -*
 
@@ -58,7 +58,7 @@ DATABASES = {
 }
 '''
 
-dashboard_file ='''# -*- encoding: utf-8 -*
+dashboard_file = '''# -*- encoding: utf-8 -*
 
 from django.utils.translation import ugettext_lazy as _
 from django.core.urlresolvers import reverse
@@ -92,7 +92,8 @@ class CustomIndexDashboard(Dashboard):
 
 
 auf_urls_template = '''# -*- encoding: utf-8 -*
-from django.conf.urls.defaults import patterns, include, handler500, handler404, url
+from django.conf.urls.defaults import \\
+        patterns, include, handler500, handler404, url
 from django.conf import settings
 from django.contrib import admin
 
@@ -179,17 +180,17 @@ SOUTH_TESTS_MIGRATE = False
 
 ADMIN_TOOLS_INDEX_DASHBOARD = 'project.dashboard.CustomIndexDashboard'
 
-from conf import *
+from conf import *  # NOQA
 '''
 
-################################################################################
+###############################################################################
 # DEVELOPPEMENT
-################################################################################
+###############################################################################
 auf_development_settings = '''# -*- encoding: utf-8 -*-
 
-from %(project)s.settings import *
-DEBUG=True
-TEMPLATE_DEBUG=DEBUG
+from %(project)s.settings import *  # NOQA
+DEBUG = True
+TEMPLATE_DEBUG = DEBUG
 
 # Décommentez ces lignes pour activer la debugtoolbar
 #INTERNAL_IPS = ('127.0.0.1',)
@@ -199,9 +200,9 @@ TEMPLATE_DEBUG=DEBUG
 AUTH_PASSWORD_REQUIRED = False
 '''
 
-################################################################################
+###############################################################################
 # PRODUCTION
-################################################################################
+###############################################################################
 auf_production_settings = ''' # -*- encoding: utf-8 -*-
 
 # En production, rediriger la sortie terminal on disponible en WSGI
@@ -209,5 +210,5 @@ auf_production_settings = ''' # -*- encoding: utf-8 -*-
 import sys
 sys.stdout = sys.stderr
 
-from %(project)s.settings import *
+from %(project)s.settings import *  # NOQA
 '''
