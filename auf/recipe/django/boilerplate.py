@@ -92,15 +92,12 @@ class CustomIndexDashboard(Dashboard):
 
 
 auf_urls_template = '''# -*- encoding: utf-8 -*
-from django.conf.urls.defaults import \\
-        patterns, include, handler500, handler404, url
+from django.conf.urls.defaults import paterns, include, url
+from django.conf.urls.defaults import handler500, handler404  # NOQA
 from django.conf import settings
 from django.contrib import admin
 
 admin.autodiscover()
-
-handler404
-handler500 # Pyflakes
 
 urlpatterns = patterns(
     '',
