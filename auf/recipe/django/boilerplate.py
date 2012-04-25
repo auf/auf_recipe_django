@@ -60,11 +60,8 @@ DATABASES = {
 
 dashboard_file = '''# -*- encoding: utf-8 -*
 
+from admin_tools.dashboard import modules, Dashboard
 from django.utils.translation import ugettext_lazy as _
-from django.core.urlresolvers import reverse
-
-from admin_tools.dashboard import modules, Dashboard, AppIndexDashboard
-from admin_tools.utils import get_admin_site_name
 
 
 class CustomIndexDashboard(Dashboard):
@@ -72,7 +69,6 @@ class CustomIndexDashboard(Dashboard):
     Custom index dashboard
     """
     def init_with_context(self, context):
-        site_name = get_admin_site_name(context)
 
         # append an app list module for "Applications"
         self.children.append(modules.AppList(
