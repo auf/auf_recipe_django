@@ -50,11 +50,10 @@ DATABASES = {
         'NAME': 'db.sqlite',
         'USER': '',
         'PASSWORD': '',
-        'HOST' : '',
-        'PORT' : '',
+        'HOST': '',
+        'PORT': '',
     }
 }
-
 '''
 
 dashboard_file ='''# -*- encoding: utf-8 -*
@@ -123,7 +122,8 @@ auf_settings_template = '''# -*- encoding: utf-8 -*-
 
 import os
 import socket
-from django.conf.global_settings import TEMPLATE_CONTEXT_PROCESSORS as DEFAULT_TEMPLATE_CONTEXT_PROCESSORS
+from django.conf.global_settings import \\
+        TEMPLATE_CONTEXT_PROCESSORS as DEFAULT_TEMPLATE_CONTEXT_PROCESSORS
 
 # Rapports d'erreurs
 SERVER_EMAIL = 'ne-pas-repondre@auf.org'
@@ -168,7 +168,6 @@ TEMPLATE_CONTEXT_PROCESSORS = DEFAULT_TEMPLATE_CONTEXT_PROCESSORS + (
     'django.core.context_processors.request',
     'auf.django.skin.context_processors.auf',
 )
-
 
 TEMPLATE_DIRS = (
     os.path.join(os.path.dirname(__file__), "templates"),
