@@ -43,6 +43,8 @@ application = %(module_name)s.%(attrs)s(%(arguments)s)
 
 conf_file = '''# -*- encoding: utf-8 -*
 
+SECRET_KEY = ''
+
 DATABASES = {
     'default': {
         #'ENGINE': 'django.db.backends.mysql',
