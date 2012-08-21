@@ -26,11 +26,18 @@ if __name__ == '__main__':
     %(module_name)s.%(attrs)s(%(arguments)s)
 '''
 
+sentry = """try:
+    from raven.contrib.django.middleware.wsgi import Sentry
+    application = Sentry(application)
+except:
+    pass
+"""
+
 auf_script_template = {
     'wsgi': env + """
 application = %(module_name)s.%(attrs)s(%(arguments)s)
-""",
+""" + sentry,
     'fcgi': env + """
 %(module_name)s.%(attrs)s(%(arguments)s)
-""",
+""" +sentry,
 }
