@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 
 name = 'auf.recipe.django'
-version = '2.1'
+version = '2.2'
 
 setup(name=name,
       version=version,

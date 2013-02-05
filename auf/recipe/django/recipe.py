@@ -79,6 +79,10 @@ class Recipe(OriginalDjangoRecipe):
                         extra_paths=extra_paths,
                         arguments="'%s.%s', logfile='%s'" % (
                             project, self.options['settings'],
-                            self.options.get('logfile'))))
+                            self.options.get('logfile')),
+                        initialization=self.options.get(
+                            'initialization',
+                            ''),
+                        ))
         zc.buildout.easy_install.script_template = _script_template
         return scripts
