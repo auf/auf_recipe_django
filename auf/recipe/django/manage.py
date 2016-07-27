@@ -2,23 +2,31 @@ import imp
 import os
 import sys
 
+import django
+from distutils import version
 from django.core import management
 
 
 def main(settings_file):
-    try:
-        mod = __import__(settings_file)
-        components = settings_file.split('.')
-        for comp in components[1:]:
-            mod = getattr(mod, comp)
+    django_version = django.get_version()
+    if version.StrictVersion(django_version) < version.StrictVersion('1.4'):
+        try:
+            mod = __import__(settings_file)
+            components = settings_file.split('.')
+            for comp in components[1:]:
+                mod = getattr(mod, comp)
 
-    except ImportError, e:
-        import sys
-        sys.stderr.write("Error loading the settings module '%s': %s"
-                            % (settings_file, e))
-        return sys.exit(1)
+        except ImportError, e:
+            sys.stderr.write("Error loading the settings module '%s': %s"
+                                % (settings_file, e))
+            return sys.exit(1)
 
-    management.execute_manager(mod)
+        management.execute_manager(mod)
+    else:
+        os.environ.setdefault("DJANGO_SETTINGS_MODULE",
+                              settings_file)
+        management.execute_from_command_line(sys.argv)
+
 
 # Fix pour le ticket Django #14087 (https://code.djangoproject.com/ticket/14087)
 # On applique le patch https://code.djangoproject.com/attachment/ticket/14087/namespace_package_pth.diff
