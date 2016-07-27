@@ -6,11 +6,11 @@ env = '''
 %(relative_paths_setup)s
 import sys
 
-eggs_path = [
+sys.path[0:0]  = [
     %(path)s,
     ]
 
-sys.path[0:0] = eggs_path
+eggs_path = sys.path[0:0]
 
 import pkg_resources
 
